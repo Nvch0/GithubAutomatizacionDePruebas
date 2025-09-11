@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5 text-center">
+    <h1 class="text-danger">❌ Ocurrió un error en el pago</h1>
+    <p class="mt-3">{{ mensaje }}</p>
+    <a href="{% url 'carro:carro' %}" class="btn btn-warning mt-4">Volver al carro</a>
+</div>
+{% endblock %}

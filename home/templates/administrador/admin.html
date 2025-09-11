@@ -1,0 +1,371 @@
+{% extends 'administrador/base_administrador.html' %}
+
+{% load static %}
+
+{% block title %} Productos {% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/productos.css' %}">
+
+<div id="page-content-wrapper">
+
+    <!-- * Boton-->
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+            <h2 class="fs-2 m-0">Productos</h2>
+        </div>
+    </nav>
+
+    <!-- * CONTENIDO PAGINA*-->
+
+    <div class="container-fluid px-4 ">
+
+
+        <div class="p-2" style=" background-color: white;">
+
+
+            <!--todo BOTONES (ENCABEZADO)-->
+            <div class="m-3">
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="fa-solid fa-plus me-2"></i>Producto
+                </button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#categoria">
+                    <i class="fa-solid fa-plus me-2"></i>Categoria
+                </button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#marca">
+                    <i class="fa-solid fa-plus me-2"></i>Marca
+                </button>
+
+            </div>
+
+            <!--todo TABLA (CUERPO)-->
+
+            <div class="col table-responsive p-3 rounded">
+
+                <table class="table table-striped text-center shadow">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th class="col" width="20px">Imagen</th>
+                            <th class="col">Nombre</th>
+                            <th class="col">Precio normal</th>
+                            <th class="col">Descripcion</th>
+                            <th class="col-1">Categoria</th>
+                            <th class="col-1">Marca</th>
+                            <th class="col">Stock</th>
+                            <th class="col">Opciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% if productos %}
+                        {% for i in productos %}
+                        <tr>
+                            <th class="">{{i.id}}</th>
+                            {% if i.imagen %}
+                            <td class="col"><img src="{{i.imagen.url}}" alt="" class="img-fluid"></td>
+                            {% else %}
+
+                            <td class="col"><img src="media/producto/default.jpg" alt="" class="img-fluid"></td>
+                            {% endif %}
+
+                            <td class="col">{{i.nombre}}</td>
+                            <td class="col">$ {{i.precio}}</td>
+                            <td class="col">{{i.descripcion}}</td>
+                            <td class="col">{{i.categoria}}</td>
+                            <td class="col">{{i.marca}}</td>
+                            <td class="col">{{i.stock}}</td>
+                            <td>
+
+                                <button class="btn btn-danger mb-1" onclick="eliminarProducto({{i.id}})"><i class="fa-solid fa-trash-can"></i></button>
+
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <td colspan="8">Ningun producto creado</td>
+                        {% endif %}
+                    </tbody>
+
+                </table>
+            </div>
+
+            <div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- todo | Modal Nuevo producto -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo producto</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!--* CUERPO MODAL *-->
+            <div class="container modal-body">
+                <form class="row" method="POST" action="" id="form-producto" name="form-producto"
+                    enctype="multipart/form-data">
+
+                    {% csrf_token %}
+
+                    <input type="hidden" name="form_id" value="form-producto">
+
+                    <div class="col-lg-6">
+                        <div class=" mb-3">
+                            <label for="imagen" class="form-label">Imagen de producto</label>
+                            <input class="form-control" type="file" id="imagen" name="imagen">
+                        </div>
+
+                        <div class=" mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre"
+                                placeholder="Ingrese nombre del producto">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="desc" class="form-label">Descripcion</label>
+                            <textarea class="form-control" id="desc" rows="3" name="desc"></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-6">
+
+                        <label for="" class="form-label">Seleccione categoria</label>
+
+                        <select class="form-select mb-3" aria-label="Default select example" name="seccion">
+                            <option selected>Seleccione</option>
+                            {% for categoria in categorias %}
+                            <option value="{{categoria.nombre}}">{{categoria.nombre}}</option>
+                            {% endfor %}
+                        </select>
+
+                        <div class=" mb-3">
+                            <label for="precio" class="form-label">Precio</label>
+                            <input type="number" class="form-control" id="precio" name="precio" placeholder="$$">
+                        </div>
+
+                        <label for="" class="form-label">Seleccione marca</label>
+
+                        <select class="form-select mb-3" aria-label="Default select example" name="marca-list">
+                            <option selected>Seleccione</option>
+                            {% for marca in marcas %}
+                            <option value="{{marca.nombre}}">{{marca.nombre}}</option>
+                            {% endfor %}
+                        </select>
+
+
+                        <div class=" mb-3">
+                            <label for="stock" class="form-label">Stock</label>
+                            <input type="number" class="form-control" id="stock" name="stock"
+                                placeholder="Ingrese cantidad de stock">
+                        </div>
+
+                    </div>
+
+                    <!--* FOOTER MODAL *-->
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Registrar</button>
+                    </div>
+
+                </form>
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<!-- todo | Modal Nueva Categoria -->
+<div class="modal fade" id="categoria" tabindex="-1" aria-labelledby="categoria" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="categoria">Nueva Categoria</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!--* CUERPO MODAL *-->
+            <div class="container modal-body">
+                <form class="row" method="POST" action="" enctype="multipart/form-data" id="form-categoria">
+
+                    {% csrf_token %}
+
+                    <div class="col-lg-6">
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nombre</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                {% for categoria in categorias %}
+
+                                <tr>
+                                    <td>{{categoria.id}}</td>
+                                    <td>{{categoria.nombre}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+
+
+                    </div>
+
+                    <div class="col-lg-6">
+
+                        <input type="hidden" name="form_id" value="form-categoria">
+
+                        <div class=" mb-3">
+                            <label for="precio" class="form-label">Nombre categoria</label>
+                            <input type="text" class="form-control" id="precio" name="nueva-categoria"
+                                placeholder="Ingrese nombre de nueva categoria">
+                        </div>
+
+
+
+                    </div>
+
+                    <!--* FOOTER MODAL *-->
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Registrar</button>
+                    </div>
+
+                </form>
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<!-- todo | Modal Nueva Marca -->
+<div class="modal fade" id="marca" tabindex="-1" aria-labelledby="marca" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="categoria">Nueva Marca</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!--* CUERPO MODAL *-->
+            <div class="container modal-body">
+                <form class="row" method="POST" action="" enctype="multipart/form-data" id="form-marca">
+
+                    {% csrf_token %}
+
+                    <div class="col-lg-6">
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nombre</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                {% for marca in marcas %}
+
+                                <tr>
+                                    <td>{{marca.id}}</td>
+                                    <td>{{marca.nombre}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+
+
+                    </div>
+
+                    <div class="col-lg-6">
+
+                        <input type="hidden" name="form_id" value="form-marca">
+
+                        <div class=" mb-3">
+                            <label for="precio" class="form-label">Nombre marca</label>
+                            <input type="text" class="form-control" id="precio" name="nueva-marca"
+                                placeholder="Ingrese nombre de nueva marca">
+                        </div>
+
+
+
+                    </div>
+
+                    <!--* FOOTER MODAL *-->
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Registrar</button>
+                    </div>
+
+                </form>
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function eliminarProducto(id) {
+
+
+        Swal.fire({
+            title: 'Estas seguro?',
+            text: "Eliminaras el producto con id " + id,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Si, Borrar!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location = ('/eliminar/' + id + '/')
+                
+                Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Producto borrado",
+                showConfirmButton: false,
+                timer: 20000
+                });
+            }
+        })
+
+    }
+
+</script>
+
+
+{% endblock %}
+

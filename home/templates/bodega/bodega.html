@@ -1,0 +1,177 @@
+{% extends 'administrador/base_administrador.html' %}
+
+
+{% load static %}
+{% block content %}
+
+<div id="page-content-wrapper">
+
+    <!-- * Boton-->
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+            <h2 class="fs-2 m-0">Bodega</h2>
+        </div>
+    </nav>
+
+    <!-- * CONTENIDO PAGINA*-->
+
+    <div class="container-fluid px-4 ">
+
+        <div class="p-4" style="background-color: white;">
+
+            <h3>Pedidos</h3>
+
+            <div class="col table-responsive p-3 rounded">
+
+                <!--Busqueda-->
+                <div class="row mb-5">
+                    <div class="col-lg-5">
+                        <form action="" method="get">
+                            <div id="busqueda">
+                                <div class="input-group col-md-12">
+                                    <input type="text" class="form-control" placeholder="ID" name="buscar-pedido">
+                                    <span class="input-group-btn">
+                                        <i class="icon icon-search"></i>
+                                        <button type="submit" class="btn btn-success"><i
+                                                class="fa-solid fa-magnifying-glass"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <table class="table table-striped text-center shadow">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th class="col">Usuario</th>
+                            <th class="col">Fecha de pedido</th>
+                            <th class="col">Direccion</th>
+                            <th class="col">Productos</th>
+                            <th class="col">Total</th>
+                            <th class="col">Estado actual</th>
+                            <th class="col">Cambiar estado</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% if pedidos %}
+                        {% for i in pedidos %}
+                        <tr>
+                            <td class="col">{{i.id}}</td>
+                            <td class="col">{{i.user.first_name}} {{i.user.last_name}}</td>
+                            <td class="col">{{i.created_at}}</td>
+                            <td class="col">
+                                <strong>Region: </strong> {{i.direccion.region}} <br>
+                                <strong>Comuna:</strong> {{i.direccion.comuna}} <br>
+                                <strong>Calle:</strong> {{i.direccion.calle}} <br>
+                                <strong>Numero:</strong> {{i.direccion.numero}}
+                            </td>
+                            <td class="col">
+
+                                {% for d in detalle %}
+                                    
+                                    {% if d.pedido.id == i.id %}
+
+                                    <ul>
+                                        <li>
+                                            {{d.producto}} X {{d.cantidad}}
+                                        </li>
+                                    </ul>
+                                        
+                                    {% endif %}
+                                        
+                                {% endfor %}
+
+
+                            </td>
+                            <td class="col">{{i.total}}</td>
+
+                            {% if i.estado ==  0 %}
+                                <td class="col bg-primary text-white">{{i.estado_display}}</td>
+                            {% endif %}
+
+                            {% if i.estado ==  1 %}
+                                <td class="col bg-warning text-black">{{i.estado_display}}</td>
+                            {% endif %}
+                            
+                            {% if i.estado ==  2 %}
+                                <td class="col bg-success text-light">{{i.estado_display}}</td>
+                            {% endif %}
+                                
+                            <td class="col">
+                                <button onclick="abrirModalCambioEstado({{ i.id }})" type="button"
+                                    class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <td colspan="8">Ningun producto creado</td>
+                        {% endif %}
+                    </tbody>
+
+                </table>
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Cambiar estado</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'home:cambiar_estado_pedido' %}" method="post" id="form-estado">
+                {% csrf_token %}
+                <div class="modal-body">
+
+                    <input type="hidden" name="pedido_id" id="pedido_id">
+
+                    <label for="formGroupExampleInput" class="form-label mt-2">Estado</label>
+                    <select class="form-select" aria-label="Default select example" name="select-estado">
+                        <option selected value="0">En preparacion</option>
+                        <option value="1">En camino</option>
+                        <option value="2">Entregado</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Cambiar estado</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function abrirModalCambioEstado(pedidoId) {
+        document.getElementById('pedido_id').value = pedidoId;
+        var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+        modal.show();
+    }
+</script>
+
+{% endblock content %}

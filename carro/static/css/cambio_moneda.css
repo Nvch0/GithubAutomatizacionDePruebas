@@ -1,0 +1,31 @@
+body {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: black;
+}
+
+.caja_pago {
+    background-color: #f8f9fa;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.currency-select-container {
+    margin-top: 20px;
+}
+
+.currency-select-container label {
+    font-weight: bold;
+}
+
+.currency-select-container select {
+    margin-top: 10px;
+}
+
+.result-container {
+    margin-top: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+}

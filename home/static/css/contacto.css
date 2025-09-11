@@ -1,0 +1,75 @@
+body {
+    background-image: url('../imagenes/img.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #fff;
+}
+
+.container {
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 15px;
+    padding: 30px;
+    margin-top: 50px;
+}
+
+.bg-primary {
+    background: #f07909;
+}
+
+.bg-primary h2,
+.bg-primary p {
+    color: #fff;
+}
+
+.input-box {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-box input,
+.input-box textarea {
+    width: 100%;
+    padding: 10px;
+    background: rgba(215, 216, 205, 0.548);
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.input-box input:focus,
+.input-box textarea:focus {
+    border-color: #ff9100;
+    box-shadow: 0 0 10px rgba(185, 193, 202, 0.5);
+}
+
+.input-box i {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    color: #6be61a;
+}
+
+.btn-primary {
+    background-color: #5e5952;
+    border-color: #d9ff00;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.contact-info {
+    margin-top: 20px;
+}
+
+.contact-info p {
+    margin-bottom: 10px;
+}
+
+.bg-custom {
+    background-color: #c96303;
+    /* Cambia esto al color que desees */
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+
+            <div class="">
+                <h1>Hola <strong>{{nombreusuario}}</strong></h1>
+
+                <p><strong>ID Pedido: </strong> {{pedido}}</p>
+                <p><strong>Fexha de pedido: </strong>{{pedido.created_at}}</p>
+
+
+                {% for detalle in detalle_pedido %}
+
+                    <ul>
+                        <li> {{detalle.producto.nombre}} X {{detalle.cantidad}}</li>
+                    </ul>
+
+                {% endfor %}
+                    
+               <p>{{total}}</p>
+
+
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

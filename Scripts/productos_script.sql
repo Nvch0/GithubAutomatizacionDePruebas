@@ -1,0 +1,13 @@
+INSERT INTO ferremas.producto_producto VALUES (132, 'CHAPA ACAN.0,30X0,90X6,10CM', 20000, 'Descripción de pruebas', 'producto/con2_2wbiTHP.jpg', 1, 45, 2);
+INSERT INTO ferremas.producto_producto VALUES (133, 'STATOFIX 100G', 13670, 'Descripción de pruebas', 'producto/con3_6zWmehu.jpg', 1, 23, 7);
+INSERT INTO ferremas.producto_producto VALUES (134, 'CORTADORA MANUAL DE PISO 1.20MT 5134 FSY', 1200000, 'Descripción de pruebas', 'producto/man1.jpg', 2, 100, 4);
+INSERT INTO ferremas.producto_producto VALUES (135, 'SERRUCHO CARP 18\ TRAMONTINA', 40000, 'Descripcion de prueba', 'producto/man2.jpg', 2, 500, 6);
+INSERT INTO ferremas.producto_producto VALUES (136, 'LONA ANARANJADA 4X8M', 14000, 'Descripcion descripcion xd xd xd xd xd xd', 'producto/basic.jpg', 3, 300, 1);
+INSERT INTO ferremas.producto_producto VALUES (137, 'GANCHO PLASTICO 17006 3M MINI', 7000, 'Un ganchito pa gancheaaarrrr', 'producto/basic2.jpg', 3, 1000, 4);
+INSERT INTO ferremas.producto_producto VALUES (138, 'ZAPATON SEGURIDAD 42 PUNT. PLAST BSL4400', 27000, 'Descripcion de pruebas de seguridad', 'producto/seg.jpg', 4, 300, 3);
+INSERT INTO ferremas.producto_producto VALUES (139, 'LENTE SEG. DEP NEGRO 14302', 16000, 'Seguridad de ojos para ver', 'producto/seg2.jpg', 4, 400, 8);
+INSERT INTO ferremas.producto_producto VALUES (140, 'EXTRACTOR TORNILLO 5PZ UYUS EXT501', 20000, 'Descripción de tornillos para usar en cosas donde se ocupan', 'producto/tor1.jpg', 5, 45, 5);
+INSERT INTO ferremas.producto_producto VALUES (141, 'TORNILLO MITTOFIX 6X80 X100UND', 20000, 'Descripcion de caja de tornillos', 'producto/tor2.jpg', 5, 300, 9);
+INSERT INTO ferremas.producto_producto VALUES (142, 'MEZCLADORA RUBIMIX-7 230V RU1.26900 RUBI', 120000, 'La Rubimix-7 Es una mezcladora de morteros y líquidos profesional, gracias a su gran potencia de 1200w, este mezclador resulta ideal para el mezclado de adhesivos cementosos, resinas, pinturas y otros materiales. Incluye: varilla mezcladora tipo m-120-r...', 'producto/fija.jpg', 6, 500, 6);
+INSERT INTO ferremas.producto_producto VALUES (143, 'MEDIDOR DE DISTANCIA LASER 40M GL MDL-74', 88000, 'Medidor entero pulento', 'producto/medi.jpg', 7, 100, 3);
+INSERT INTO ferremas.producto_producto VALUES (144, 'RUEDA MEDIDOR DE DISTANCIA ANALOGICA', 22000, 'Descripcion de medidor de rueda', 'producto/medi2.jpg', 7, 899, 4);

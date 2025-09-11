@@ -1,0 +1,7 @@
+Ingresa con las credenciales de usuario Comprador en el navegador 
+donde se compra
+
+4051 8856 0044 6623
+cvv 123
+11111111-1
+clave: 123

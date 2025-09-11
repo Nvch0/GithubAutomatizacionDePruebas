@@ -1,0 +1,458 @@
+{%extends 'base.html'%}
+
+{% load static %}
+
+{% block content %}
+
+<head>
+
+    <link rel="preconnect" href="//fonts.googleapis.com">
+    <link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
+    <link href="//fonts.googleapis.com/css2?family=Inter:wght@300;400;500;800&family=Lato:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="https://www.ferremas.com.py/assets/css/slick.css?1684938985" />
+    <link href="https://www.ferremas.com.py/assets/css/bootstrap.min.css?1684938985" rel="stylesheet">
+    <link href="https://www.ferremas.com.py/assets/css/ferremas.css?1684938985" rel="stylesheet">
+    <link rel="stylesheet"
+        href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+
+    <title>Carrito - Ferre+</title>
+    <meta name="description"
+        content="Ponemos a disposición de los clientes, los productos, las herramientas y maquinarias necesarias para facilitar las tareas ya sean de la vida cotidiana como también para los profesionales de la construcción, industriales, talleres, entre otros." />
+
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="https://www.ferremas.com.py/favicons/apple-touch-icon.png?1684938985">
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="https://www.ferremas.com.py/favicons/favicon-32x32.png?1684938985">
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="https://www.ferremas.com.py/favicons/favicon-16x16.png?1684938985">
+    <link rel="manifest" href="https://www.ferremas.com.py/favicons/site.webmanifest?1684938985">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+
+</head>
+
+
+{% if request.session.carro.items %}
+<!--CONTENIDO DEL CARRITO DE COMPRA-->
+<section class="carrito">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-8">
+
+                <!--Falta boton para vaciar carro-->
+
+
+
+                <div class="container mt-5">
+                    <div class="d-flex justify-content-end">
+                        <a href="{% url 'carro:limpiar' %}" type="button"
+                            class="btn subtitulo  mt-4 mt-md-0 badge text-bg-light">Vaciar carro</a>
+                    </div>
+                </div>
+
+
+
+
+
+                <!--------------------------------------------------->
+
+                <span class="subtitulo  mt-4 mt-md-0 badge text-bg-light">Carrito de Compras</span>
+
+                {% if request.session.carro.items %}
+                {% for key, value in request.session.carro.items %}
+
+                <div class="caja_info" id="producto-{{ value.producto_id }}">
+                    <div class="carrito_prod_imagen">
+                        <img src="{{value.imagen}}" class="img-fluid" />
+                    </div>
+
+                    <div class="carrito_prod_info">
+                        <p class="small_info">Cód. Producto: {{value.producto_id}}
+                        </p>
+                        <h3 class="titulo">{{value.nombre}}</h3>
+                    </div>
+
+                    <div class="carrito_prod_numeros">
+
+                        <div class="un_producto_info_bottom">
+                            <div class="un_producto_precio">
+                                <span class="txt">Precio unitario:</span>
+                                <span class="precio">${{value.precio}}</span>
+                            </div>
+                            <div class="un_producto_cont_botones">
+                                <div class="un_producto_cantidad">
+                                    <div class="input-group">
+                                        <span class="input-group-btn btn_minus">
+
+                                            <button type="button" class="btn btn-number"
+                                                onclick="restarProducto( {{value.producto_id}} )">
+                                                <span class="glyphicon glyphicon-minus"></span>
+                                            </button>
+
+                                        </span>
+                                        <input type="text" name="quant[2]" class="form-control input-number"
+                                            value="{{ value.cantidad }}" readonly id="cantidad-{{ value.producto_id }}">
+
+                                        <span class="input-group-btn btn_plus">
+                                            <button type="button" class="btn btn-number"
+                                                onclick="sumarProducto({{ value.producto_id }});">
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                            </button>
+
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+
+                <div class="caja_info">
+                    <p class="mt-4 mt-md-0 badge text-bg-light p-6 fs-1">Carrito de compras vacio</p>
+                </div>
+
+                {% endif %}
+
+                <!--cambio de moneda mas atractivo-->
+
+                <!--<body>
+
+                    <div class="container mt-5">
+                        <div class="caja_info caja_pago">
+                            <h1 class="mb-4">Cambio de moneda</h1>
+                            <p class="mb-3">Total actual en CLP:
+                                <span id="importe-total" class="badge bg-primary"
+                                    data-value="{{ importe_total_carro }}">{{importe_total_carro }}</span>
+                            </p>
+
+                            <div class="currency-select-container">
+                                <label for="currency-select" class="form-label">Selecciona una moneda:</label>
+                                <select id="currency-select" class="form-select">
+                                    <option value="">Selecciona una moneda</option>
+                                </select>
+                            </div>
+                            <div class="result-container mt-4">
+                                <p>Importe Total Convertido:
+                                    <span id="converted-importe-total" class="badge bg-success"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if not direccion_id %}
+
+
+
+                    <div class="alert alert-danger mt-3 " role="alert">
+                        Debes confirmar la direccion para continuar con la compra
+                    </div>
+
+
+
+
+
+                    {% endif %}
+
+
+
+                </body>-->
+
+
+
+
+                <!--RESUMEN DE LA COMPRA-->
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="row">
+                    <div class="col-12 col-lg-10 order-1 order-lg-2">
+                        <span class="subtitulo  mt-4 mt-md-0 badge text-bg-light">Resumen de compra</span>
+                        <div class="caja_info caja_resumen">
+                            <div class="resumen_info">
+                                <div class="linea">
+                                    <div class="txt">Cantidad de producto/s:</div>
+                                    <div class="nro">1</div>
+                                </div>
+                                <div class="linea lineatotal row">
+                                    <div class="txt col-12">
+                                        {% if request.session.carro.items %}
+                                        {% for key, value in request.session.carro.items %}
+                                        <p class="fs-6">{{value.nombre}} x {{value.cantidad}}</p>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </div>
+
+                                    <!--TODO| ENVIO-->
+
+                                    <div class="linea lineatotal row">
+                                        <spam>Direccion</spam>
+
+                                        {% if direccion_id %}
+
+                                        {% for de in direccion_envio %}
+
+                                        <span class="fs-6"> <span class="fw-bold">Nombre:</span> {{de.nombre}} </span>
+                                        <span class="fs-6"><span class="fw-bold">Region:</span> {{de.region}} </span>
+                                        <span class="fs-6"><span class="fw-bold">Comuna:</span> {{de.comuna}} </span>
+
+                                        {% endfor %}
+
+                                        <a href="{% url 'carro:cambiar_direccion' %}">
+                                            <button class="btn btn-primary">Cambiar direccion</button>
+                                        </a>
+                                        {% else %}
+
+                                        <form method="POST" action="{% url 'carro:confirmar_direccion' %}"
+                                            id="direccionForm">
+                                            {% csrf_token %}
+                                            <select class="form-select" name="direccion" id="form-select"
+                                                aria-label="Default select example">
+                                                <option value="default">Seleccione una direccion</option>
+                                                {% for direc in direcciones %}
+                                                {% if direc.user == user %}
+                                                <option value="{{ direc.id }}">{{ direc }}</option>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </select>
+
+                                            <div class="d-grid gap-2 mt-2">
+                                                <button type="submit" class="btn btn-success">Confirmar
+                                                    direccion</button>
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal">Nueva direccion</button>
+                                            </div>
+                                        </form>
+
+                                        {% endif %}
+
+
+
+
+                                    </div>
+
+                                    <div class="nro linea lineatotal">
+                                        <h3>Total: $<span id="total">{{ importe_total_carro }}</span></h3>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% else %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col shadow-lg text-center m-3 p-5">
+
+            <img src="{% static 'imagenes/estante.png' %}" alt="" class="img-fluid">
+
+            <h2 class="p-4">Su carro de compras esta vacio</h2>
+
+            <a href="{% url 'home:home' %}" class="btn btn-outline-secondary">Comprar en ferremas.cl</a>
+        </div>
+    </div>
+</div>
+{%endif%}
+
+
+<!--BOTON PARA CONFIRMAR COMPRA-->
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div id="wallet_container" class="col text-center">
+
+                    <!-- 🌟 BOTÓN TRANSBANK CON ESTILO -->
+                    {% if token_ws and url_transbank %}
+                    <form method="POST" action="{{ url_transbank }}">
+                        <input type="hidden" name="token_ws" value="{{ token_ws }}">
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-lg btn-primary shadow-lg border-0 fw-bold py-3"
+                                style="background: linear-gradient(90deg, #007bff, #00c6ff); color: white; border-radius: 12px;">
+                                <i class="fa-solid fa-credit-card me-2"></i> Pagar ahora con Webpay
+                            </button>
+                        </div>
+                    </form>
+                    {% endif %}
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Modal nueva direccion -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva direccion</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" name="nombre"
+                            placeholder="Ingrese nombre de direcccion">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Region</label>
+                        <select class="form-select" aria-label="Default select example" name="region" id="regionSelect">
+                            <option selected>Seleccione la region</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Comuna</label>
+                        <select class="form-select" aria-label="Default select example" name="comuna" id="comunaSelect">
+                            <option selected>Seleccione la comuna</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Calle</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" name="calle"
+                            placeholder="Ingrese nombre de la calle">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Numero</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" name="numero"
+                            placeholder="Ingrese numero de la calle">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Departamento, casa u oficina
+                            (opcional)</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" name="casa"
+                            placeholder="xxxx">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success">Guardar direccion</button>
+
+                </div>
+
+
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script>
+    function sumarProducto(productoId) {
+        $.ajax({
+            url: `/carro/sumar_producto/${productoId}/`,
+            method: 'GET',
+            success: function (data) {
+                $('#cantidad-' + productoId).val(data.cantidad);
+                actualizarTotal(data.total);
+            }
+        });
+    }
+</script>
+<script src="{% static 'js/carro.js' %}"></script>
+
+<script src="{% static 'js/cambio_monedas.js' %}"></script>
+
+<script>
+
+
+
+
+
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const regionSelect = document.getElementById('regionSelect');
+        const comunaSelect = document.getElementById('comunaSelect');
+        const apiUrl = 'https://gist.githubusercontent.com/juanbrujo/0fd2f4d126b3ce5a95a7dd1f28b3d8dd/raw/b8575eb82dce974fd2647f46819a7568278396bd/comunas-regiones.json';
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const regiones = data.regiones;
+
+                // Llenar el select de regiones
+                regiones.forEach(region => {
+                    const option = document.createElement('option');
+                    option.value = region.region;
+                    option.textContent = region.region;
+                    regionSelect.appendChild(option);
+                });
+
+                // Evento para cambiar las comunas cuando se seleccione una región
+                regionSelect.addEventListener('change', function () {
+                    const selectedRegion = regionSelect.value;
+                    const comunas = regiones.find(region => region.region === selectedRegion).comunas;
+
+                    // Limpiar el select de comunas
+                    comunaSelect.innerHTML = '<option selected>Seleccione la comuna</option>';
+
+                    // Llenar el select de comunas
+                    comunas.forEach(comuna => {
+                        const option = document.createElement('option');
+                        option.value = comuna;
+                        option.textContent = comuna;
+                        comunaSelect.appendChild(option);
+                    });
+                });
+            })
+            .catch(error => console.error('Error al cargar los datos:', error));
+    });
+</script>
+
+<script>
+    document.getElementById('direccionForm').addEventListener('submit', function (event) {
+        var selectElement = document.getElementById('form-select');
+        if (selectElement.value === 'default') {
+            event.preventDefault();  // Evita el envío del formulario
+            Swal.fire({
+                title: "Error",
+                text: "Por favor, seleccione una dirección válida.",
+                icon: "error"
+            });
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock content %}

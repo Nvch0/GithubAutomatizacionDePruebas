@@ -1,0 +1,115 @@
+{%extends 'base.html'%}
+{% load static %}
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+
+{% for u in user.groups.all %}
+
+<p>{{u.name}}</p>
+
+{% endfor %}
+
+<!--todo| CARRUSEL PRINCIPAL |-->
+<div id="carouselExampleInterval" class="carousel slide mt-3" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="5000">
+            <img src="{% static 'imagenes/aaaa.jpg' %}" class="d-block w-100 img-fluid" alt="...">
+        </div>
+        <div class="carousel-item" data-bs-interval="5000">
+            <img src="{% static 'imagenes/eee.jpg' %}" class="d-block w-100 img-fluid" alt="...">
+        </div>
+        <div class="carousel-item " data-bs-interval="5000">
+            <img src="{% static 'imagenes/ppp.jpg' %}" class="d-block w-100 img-fluid" alt="...">
+        </div>
+        <div class="carousel-item " data-bs-interval="5000">
+            <img src="{% static 'imagenes/uu.jpg' %}" class="d-block w-100 img-fluid" alt="...">
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<!--todo| fin de carrucel-->
+
+
+
+<!--todo| Titulo de la pagina-->
+<div class="text-center p-5">
+    <h1>Productos</h1>
+</div>
+
+{{result}}
+
+<!--todo| Busqueda-->
+
+<!--Busqueda-->
+<div class="row justify-content-center mb-5">
+    <div class="col-lg-9">
+        <form action="" method="get">
+            <div id="busqueda">
+                <div class="input-group col-md-12">
+                    <input type="text" class="form-control" placeholder="Buscar..." name="buscar">
+                    <span class="input-group-btn">
+                        <i class="icon icon-search"></i>
+                        <button type="submit" class="btn btn-success"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!--todo| Seccion de Productos |-->
+<div class="row justify-content-center">
+    {% for i in productos %}
+
+
+    <div class="col-md-3 m-3">
+        <div class="card rounded-2 shadow" style="position: relative;">
+            <!-- <span class="discount-badge">30%</span> -->
+            <a href="{% url 'producto:detalle_producto' i.id %}">
+                {% if i.imagen %}
+                <img src="{{i.imagen.url}}" class="card-img-top" alt="...">
+                {% else %}
+                <img src="media/producto/default.jpg" class="card-img-top" alt="...">
+                {% endif %}
+            </a>
+            <div class="card-body">
+                <h5 class="card-title">{{i.nombre}}</h5>
+                <p class="card-text">{{i.marca}}</p>
+                <p class="h4">CLP {{i.precio}}</p>
+                <a href="{% url 'carro:agregar' i.id %}" class="btn btn-outline-primary btn-block">Añadir al carro <i
+                        class="fa-solid fa-cart-shopping"></i></a>
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+</div>
+
+<script src="{% static 'js/carrito.js' %}"></script>
+
+{% if messages %}
+{% for m in messages %}
+<script>
+    Swal.fire({
+        'title': 'Hecho',
+        'text': '{{m}}',
+        'icon': '{{m.tags}}'
+    })
+</script>
+{% endfor %}
+{% endif %}
+
+
+{% endblock content %}

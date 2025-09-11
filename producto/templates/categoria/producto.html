@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+
+{% for i in categoria %}
+
+<h1>Categoria: {{i}}</h1>
+
+{% endfor %}
+
+
+<div class="row justify-content-center">
+
+    {% if productos %}
+
+        {% for i in productos %}
+
+        <div class="col-md-3 m-5">
+            <div class="card rounded-2 shadow" style="position: relative;">
+                <!-- <span class="discount-badge">30%</span> -->
+                <a href="{% url 'producto:detalle_producto' i.id %}">
+                    {% if i.imagen %}
+                    <img src="{{i.imagen.url}}" class="card-img-top" alt="...">
+                    {% else %}
+                    <img src="media/producto/default.jpg" class="card-img-top" alt="...">
+                    {% endif %}
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{i.nombre}}</h5>
+                    <p class="card-text">{{i.marca}}</p>
+                    <p class="h4">CLP {{i.precio}}</p>
+                    <a href="{% url 'carro:agregar' i.id %}" class="btn btn-outline-primary btn-block">Añadir al carro</a>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+    <div class="col shadow-lg text-center m-3 p-5">
+
+        <img src="{% static 'imagenes/estante.png' %}" alt="" class="img-fluid">
+
+        <h2 class="p-4">Pronto tendremos los productos que usted busca</h2>
+
+        <a href="{% url 'home:home' %}" class="btn btn-outline-secondary">Comprar en ferremas.cl</a>
+    </div>
+
+    {% endif %}
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,49 @@
+.btn-custom {
+    background-color: #c29904;
+    border: none;
+    color: rgb(43, 25, 25);
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-custom:hover {
+    background-color: #c7890c;
+    transform: scale(1.05);
+}
+
+.offcanvas-custom {
+    background-color: #f8f9fa;
+    /* Color de fondo  */
+    color: #343a40;
+    /* Texto */
+}
+
+.offcanvas-header-custom {
+    background-color: #975e08;
+    /* Fondo interno */
+    color: rgb(255, 245, 245);
+}
+
+.offcanvas-body-custom a {
+    display: block;
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #e9ecef;
+    /* Fondo interno de las casillas */
+    color: #343a40;
+    /* Texto */
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.offcanvas-body-custom a:hover {
+    background-color: #457cb4;
+    /* Fondo */
+}
+
+.navbar-custom {
+    background-color: #d88415;
+
+}

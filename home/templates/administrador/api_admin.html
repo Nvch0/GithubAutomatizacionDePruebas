@@ -1,0 +1,84 @@
+{% extends 'administrador/base_administrador.html' %}
+
+
+{% load static %}
+{% block content %}
+
+<div id="page-content-wrapper">
+
+    <!-- * Boton-->
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+            <h2 class="fs-2 m-0">API</h2>
+        </div>
+    </nav>
+
+    <!-- * CONTENIDO PAGINA*-->
+
+    <div class="container-fluid px-4 ">
+
+
+        <div class="p-4" style="background-color: white;">
+            <div class="container mt-4">
+                <h2 class="text-center">Documentación de la API</h2>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Acceso a la API de Ferre+ (Solo para Administradores)</h5>
+                                <p class="card-text">
+                                    Para probar nuestra API, necesitas un Access Token que tiene una validez de un día. 
+                                    Este token se utiliza para autenticar y autorizar tus solicitudes a la API.
+                                </p>
+                                <p class="card-text">
+                                    <strong>Pasos para obtener y utilizar el Access Token:</strong>
+                                </p>
+                                <ol>
+                                    <li>Solicita un Access Token a través del punto final de autenticación.</li>
+                                    <li>Usa el Access Token en el encabezado de autorización de tus solicitudes API.</li>
+                                    <li>El token expira después de 24 horas, momento en el cual necesitarás obtener uno nuevo.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="p-2 mt-4" style="background-color: white;">
+            <div class="container mt-4">
+                <h2 class="text-center">Obtención del token</h2>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Generar Access Token</h5>
+                                <div class="mt-3">
+                                    <input type="text" id="username" class="form-control" placeholder="Usuario">
+                                    <input type="password" id="password" class="form-control mt-2" placeholder="Contraseña">
+                                    <button id="generateTokenBtn" class="btn btn-primary mt-2" onclick="generateToken()">Generar Access Token</button>
+                                </div>
+                                <div class="mt-3">
+                                    <input type="text" id="accessToken" class="form-control" readonly placeholder="Tu Access Token aparecerá aquí">
+                                    <button class="btn btn-secondary mt-2" onclick="copyToken()">Copiar Token</button>
+                                </div>
+                                <a href="{% url 'schema-swagger-ui' %}" class="btn btn-primary mt-3" target="_blank">Probar API en Swagger</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="{% static 'js/api.js' %}"></script>
+    
+{% endblock content %}
+
+
+    
