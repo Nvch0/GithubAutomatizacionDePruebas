@@ -257,3 +257,19 @@ TRANSBANK_COMMERCE_CODE = config('TRANSBANK_COMMERCE_CODE', default='59705555553
 TRANSBANK_API_KEY = config('TRANSBANK_API_KEY', default='X')  # No siempre es necesario
 TRANSBANK_ENVIRONMENT = config('TRANSBANK_ENVIRONMENT', default='TEST')  # o 'PRODUCTION'
 
+ALLOWED_HOSTS = [
+    "127.0.0.1", "localhost",
+    ".ngrok-free.dev",   # <-- agrega este
+    ".ngrok-free.app",   # por si te toca .app
+    ".ngrok.io",         # legacy
+]
+
+# Para formularios/login (CSRF)
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
+    "https://*.ngrok-free.dev",   # <-- agrega este
+    "https://*.ngrok-free.app",
+    "https://*.ngrok.io",
+]
+ALLOWED_HOSTS = ["127.0.0.1","localhost",".ngrok-free.dev",".ngrok-free.app",".ngrok.io"]
