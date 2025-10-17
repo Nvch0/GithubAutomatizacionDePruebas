@@ -87,3 +87,4 @@ def test_registro_contrasena_muy_corta(driver, open_page):
 
     # Evidencia después
     driver.save_screenshot(f"screenshots/registro_invalido_err_{int(time.time())}.png")
+
